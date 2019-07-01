@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Nagios alert status
+STATE_OK=0
+STATE_WARNING=1
+STATE_CRITICAL=2
+STATE_UNKNOWN=3
+
+# cache php version result
+PHPCACHEFILE=/tmp/php_version.tmp
+
+# cleanup php version cache file after 1 day
+find $PHPCACHEFILE -mtime 1 -type f -delete > /dev/null 2>&1
+
+# check php version
+LASTVERSION=$(ls -1d /opt/php-* | tail -n1)
+CURRENTPHP=$($LASTVERSION/bin/php -v | grep PHP | head -n1 | cut -d" " -f2)
+if ! [ -f $PHPCACHEFILE ]; then
+	curl -s https://www.php.net/downloads.php | grep "Current Stable" -A1 | grep PHP | cut -d" " -f6 > $PHPCACHEFILE
+fi
+
+# check if a new php version is available. WARNING if yes.
+PHPVERSION=$(cat $PHPCACHEFILE)
+if [ $PHPVERSION != $CURRENTPHP ]; then
+	echo "WARNING - Neue PHP Version $PHPVERSION verfügbar ($CURRENTPHP) !"
+	exit "$STATE_WARNING"
+fi
+
+echo "OK - PHP $CURRENTPHP ist aktuell"
+exit "$STATE_OK"
