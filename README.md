@@ -7,16 +7,16 @@ Useful if the os version does not meet your requirements.
 
 1) download git repo
 2) make the script executable: <code>chmod +x autobuild_php7.3.sh</code>
-3) run it: ./autobuild_php7.3.sh
-4) check the version: /opt/php-7.3/bin/php -v
-5) make your own settings: /opt/php-7.3/etc/php-fpm.conf | /opt/php-7.3/etc/php-fpm.d/www.conf
+3) run it: <code>./autobuild_php7.3.sh</code>
+4) check the version: <code>/opt/php-7.3/bin/php -v</code>
+5) make your own settings: <code>/opt/php-7.3/etc/php-fpm.conf | /opt/php-7.3/etc/php-fpm.d/www.conf</code>
 
 
 ## Update
 ### Debian / Ubuntu / CentOS
 
 1) make the update script executable: <code>chmod +x update_php7.3.sh</code>
-2) run the script to check if a new version is available: ./update_php7.3.sh
+2) run the script to check if a new version is available: <code>./update_php7.3.sh</code>
 3) if so, answer with "j" to update
 
 ### Nagios Plugin (optional)
@@ -36,3 +36,16 @@ define service{
         check_command                   check_nrpe_1arg!check_php_update
         }
 </pre>
+
+### Systemd Timer (optional)
+#### daily php version update check:
+
+1) copy check_php_version to <code>/usr/local/bin/</code>
+2) copy timer and service file to <code>/etc/systemd/system/</code>
+3) start and enable timer: <code>systemctl start check_php_version.timer && systemctl enable check_php_version.timer</code>
+
+### Cronjob (optional)
+#### daily php version update check:
+
+1) copy check_php_version to <code>/usr/local/bin/</code>
+2) add this line to your cronjobs <code>0    3    *    *    *    (/usr/local/bin/check_php_version) > /dev/null</code>
