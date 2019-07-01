@@ -1,0 +1,7 @@
+[Unit]
+Description=Check PHP Version
+
+[Service]
+Type=simple
+Nice=10
+ExecStart=/usr/local/bin/check_php_version
