@@ -1,23 +1,22 @@
-# php-7.3-autobuild
-This script will fully automated build PHP-FPM 7.3.x and run it as systemd service.
+# autobuild_php.sh
+This script will fully automated build the latest PHP-FPM and run it as systemd service.
 Useful if the os version does not meet your requirements.
 
 ## Install
 ### Debian / Ubuntu / CentOS
 
-1) download git repo
-2) make the script executable: <code>chmod +x autobuild_php7.3.sh</code>
-3) run it: <code>./autobuild_php7.3.sh</code>
-4) check the version: <code>/opt/php-7.3/bin/php -v</code>
+1) download <code>autobuild_php.sh</code>
+2) run it: <code>bash autobuild_php.sh install</code>
+3) check if everything is fine in the summary
+4) the script has been moved to /usr/local/bin/autobuild_php.sh
 5) make your own settings: <code>/opt/php-7.3/etc/php-fpm.conf | /opt/php-7.3/etc/php-fpm.d/www.conf</code>
 
 
 ## Update
 ### Debian / Ubuntu / CentOS
 
-1) make the update script executable: <code>chmod +x update_php7.3.sh</code>
-2) run the script to check if a new version is available: <code>./update_php7.3.sh</code>
-3) if so, answer with "j" to update
+1) run the script to check if a new version is available: <code>autobuild_php.sh update</code>
+3) if so, answer with "y" to update
 
 ### Nagios Plugin (optional)
 #### NRPE Node
@@ -40,12 +39,11 @@ define service{
 ### Systemd Timer (optional)
 #### daily php version update check:
 
-1) copy check_php_version to <code>/usr/local/bin/</code>
-2) copy timer and service file to <code>/etc/systemd/system/</code>
-3) start and enable timer: <code>systemctl start check_php_version.timer && systemctl enable check_php_version.timer</code>
+1) install systemd timer: <code>autobuild_php.sh installcron</code>
+2) systemd timer and service file has been created
+3) timer has been started
 
 ### Cronjob (optional)
 #### daily php version update check:
 
-1) copy check_php_version to <code>/usr/local/bin/</code>
-2) add this line to your cronjobs <code>0    3    *    *    *    (/usr/local/bin/check_php_version) > /dev/null</code>
+1) add this line to your cronjobs <code>0    3    *    *    *    (/usr/local/bin/autobuild_php.sh cron) > /dev/null</code>
