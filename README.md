@@ -39,9 +39,10 @@ define service{
 ### Systemd Timer (optional)
 #### daily php version update check:
 
-1) install systemd timer: <code>autobuild_php.sh installcron</code>
-2) systemd timer and service file has been created
-3) timer has been started
+1) install systemd timer: <code>autobuild_php.sh installcron your@mailaddress.com</code>
+2) verify that your system is able to send mails!
+3) systemd timer and service file has been created
+4) timer has been started
 
 ### Cronjob (optional)
 #### daily php version update check:
