@@ -3,7 +3,7 @@ This script will fully automated build the latest PHP-FPM and run it as systemd 
 Useful if the os version does not meet your requirements.
 
 ## Install
-### Debian / Ubuntu / CentOS
+### Debian 9/10 / Ubuntu 18.04 / CentOS 7
 
 1) download <code>autobuild_php.sh</code>
 2) run it: <code>bash autobuild_php.sh install</code>
@@ -13,7 +13,6 @@ Useful if the os version does not meet your requirements.
 
 
 ## Update
-### Debian / Ubuntu / CentOS
 
 1) run the script to check if a new version is available: <code>autobuild_php.sh update</code>
 3) if so, answer with "y" to update
