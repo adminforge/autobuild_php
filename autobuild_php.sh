@@ -2,7 +2,7 @@
 
 ###
 # autobuild latest php for debian / ubuntu / centos with systemd
-# v1.0 (c) dominion 2019 | https://adminforge.de
+# v1.1 (c) dominion 2019 | https://adminforge.de
 ###
 
 # remember current directory for movement
