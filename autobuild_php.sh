@@ -25,8 +25,8 @@ PHPVERSIONSHORT=$(echo $PHPVERSION | cut -d"." -f1-2)
 # check if php is already installed
 check_php() {
 if [ $(stat /opt/php-* 2>/dev/null | wc -l) -eq 0 ]; then
-	echo "No PHP found, please install it first 'bash ${0##*/} install'."
-	exit 1
+        echo "No PHP found, please install it first 'bash ${0##*/} install'."
+        exit 1
 fi
 }
 
@@ -35,31 +35,31 @@ fi
 # build latest php version from php.net
 install_latest() {
 if [ $CURRENTPHP ]; then
-	echo "PHP version $CURRENTPHP already installed, please use '${0##*/} update' to check for updates."
-	exit 1
+        echo "PHP version $CURRENTPHP already installed, please use '${0##*/} update' to check for updates."
+        exit 1
 fi
 
 # install dependencies
 if [ $(grep -E "Debian" /etc/*-release | wc -l) -ge 1 ]; then
-	echo "install on debian linux ..."
-	ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a 2>/dev/null
-	apt-get update
-	apt-get install -y build-essential pkg-config autoconf libfcgi-dev libfcgi0ldbl libjpeg62-turbo-dev libmcrypt-dev libssl-dev libc-client2007e libc-client2007e-dev libxml2-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libkrb5-dev libpq-dev libxml2-dev libxslt1-dev libzip-dev git libmagickwand-dev wget g++ libldap2-dev redis-server bsd-mailx
+        echo "install on debian linux ..."
+        ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a 2>/dev/null
+        apt-get update
+        apt-get install -y build-essential pkg-config autoconf libfcgi-dev libfcgi0ldbl libjpeg62-turbo-dev libmcrypt-dev libssl-dev libc-client2007e libc-client2007e-dev libxml2-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libfreetype6-dev libkrb5-dev libpq-dev libxml2-dev libxslt1-dev libzip-dev git libmagickwand-dev wget g++ libldap2-dev redis-server bsd-mailx
 elif [ $(grep -E "Ubuntu" /etc/*-release | wc -l) -ge 1 ]; then
-	echo "install on ubuntu linux ..."
-	ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a 2>/dev/null
-	apt-get update
-	apt-get install -y build-essential pkg-config autoconf libfcgi-dev libfcgi0ldbl libmcrypt-dev libssl-dev libc-client2007e libc-client2007e-dev libxml2-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libkrb5-dev libpq-dev libxml2-dev libxslt1-dev libzip-dev git libmagickwand-dev wget g++ libldap2-dev redis-server bsd-mailx
+        echo "install on ubuntu linux ..."
+        ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a 2>/dev/null
+        apt-get update
+        apt-get install -y build-essential pkg-config autoconf libfcgi-dev libfcgi0ldbl libmcrypt-dev libssl-dev libc-client2007e libc-client2007e-dev libxml2-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libfreetype6-dev libkrb5-dev libpq-dev libxml2-dev libxslt1-dev libzip-dev git libmagickwand-dev wget g++ libldap2-dev redis-server bsd-mailx
 elif [ $(grep -E "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
-	echo "install on centos linux ..."
-	yum install -y epel-release
-	yum install -y autoconf libxml2-devel libjpeg-devel libpng-devel libxml2-devel git ImageMagick-devel wget gcc openssl-devel libcurl-devel uw-imap-devel libc-client libicu-devel gcc-c++ libxslt-devel openldap-devel redis mailx.x86_64
-	wget http://packages.psychotic.ninja/7/plus/x86_64/RPMS//libzip-0.11.2-6.el7.psychotic.x86_64.rpm
-	wget http://packages.psychotic.ninja/7/plus/x86_64/RPMS//libzip-devel-0.11.2-6.el7.psychotic.x86_64.rpm
-	rpm -i libzip-0.11.2-6.el7.psychotic.x86_64.rpm libzip-devel-0.11.2-6.el7.psychotic.x86_64.rpm
-	useradd www-data
+        echo "install on centos linux ..."
+        yum install -y epel-release
+        yum install -y autoconf libxml2-devel libjpeg-devel libpng-devel libxml2-devel git ImageMagick-devel wget gcc openssl-devel libcurl-devel uw-imap-devel libc-client libicu-devel gcc-c++ libxslt-devel openldap-devel redis mailx.x86_64
+        wget http://packages.psychotic.ninja/7/plus/x86_64/RPMS//libzip-0.11.2-6.el7.psychotic.x86_64.rpm
+        wget http://packages.psychotic.ninja/7/plus/x86_64/RPMS//libzip-devel-0.11.2-6.el7.psychotic.x86_64.rpm
+        rpm -i libzip-0.11.2-6.el7.psychotic.x86_64.rpm libzip-devel-0.11.2-6.el7.psychotic.x86_64.rpm
+        useradd www-data
 else
-	echo "EXIT - no debian, ubuntu, centos or arch linux detected !"
+        echo "EXIT - no debian, ubuntu, centos or arch linux detected !"
 exit 1
 fi
 
@@ -75,9 +75,9 @@ cd php-$PHPVERSION/
 
 # build php
 if [ $(grep -E "Debian|Ubuntu" /etc/*-release | wc -l) -ge 1 ]; then
-./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-pdo-pgsql --with-zlib-dir --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --with-pgsql --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib/x86_64-linux-gnu --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
+./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-pdo-pgsql --with-zlib-dir --with-freetype --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --with-pgsql --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib/x86_64-linux-gnu --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
 elif [ $(grep -E "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
-./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-zlib-dir --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib64 --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
+./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-zlib-dir --with-freetype --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib64 --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
 else
 exit 1
 fi
@@ -212,8 +212,8 @@ echo ""
 
 # move script to the right place
 if ! [ -f /usr/local/bin/${0##*/} ]; then
-	echo -n "move script:              "; chmod +x $CURRENTPWD/${0##*/}; mv -v $CURRENTPWD/${0##*/} /usr/local/bin/
-	echo ""
+        echo -n "move script:              "; chmod +x $CURRENTPWD/${0##*/}; mv -v $CURRENTPWD/${0##*/} /usr/local/bin/
+        echo ""
 fi
 }
 
@@ -222,77 +222,77 @@ fi
 # update to latest php version from php.net
 update_latest() {
 if [ $PHPVERSION != $CURRENTPHP ]; then
-	read -p"New PHP version $PHPVERSION available ($CURRENTPHP). Update? (y/n) " response
-	if [ "$response" == "y" ]; then
+        read -p"New PHP version $PHPVERSION available ($CURRENTPHP). Update? (y/n) " response
+        if [ "$response" == "y" ]; then
 
-	# update php
-	mkdir /usr/local/src/php$PHPVERSIONSHORT-build >/dev/null 2>&1
-	mkdir /opt/php-$PHPVERSIONSHORT >/dev/null 2>&1
-	cd /usr/local/src/php$PHPVERSIONSHORT-build
-	wget https://www.php.net/distributions/php-$PHPVERSION.tar.gz
-	tar xf php-$PHPVERSION.tar.gz
-	cd php-$PHPVERSION
+        # update php
+        mkdir /usr/local/src/php$PHPVERSIONSHORT-build >/dev/null 2>&1
+        mkdir /opt/php-$PHPVERSIONSHORT >/dev/null 2>&1
+        cd /usr/local/src/php$PHPVERSIONSHORT-build
+        wget https://www.php.net/distributions/php-$PHPVERSION.tar.gz
+        tar xf php-$PHPVERSION.tar.gz
+        cd php-$PHPVERSION
 
-	# build php
-	if [ $(grep -E "Debian|Ubuntu" /etc/*-release | wc -l) -ge 1 ]; then
-	./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-pdo-pgsql --with-zlib-dir --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --with-pgsql --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib/x86_64-linux-gnu --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
-	elif [ $(grep -E "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
-	./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-zlib-dir --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib64 --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
-	else
-	exit 1
-	fi
-	make -j4
-	make install
+        # build php
+        if [ $(grep -E "Debian|Ubuntu" /etc/*-release | wc -l) -ge 1 ]; then
+        ./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-pdo-pgsql --with-zlib-dir --with-freetype --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --with-pgsql --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib/x86_64-linux-gnu --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
+        elif [ $(grep -E "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
+        ./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-zlib-dir --with-freetype --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib64 --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
+        else
+        exit 1
+        fi
+        make -j4
+        make install
 
-	# update php-redis module
-	cd /usr/local/src/php$PHPVERSIONSHORT-build/phpredis
-	git pull
-	/opt/php-$PHPVERSIONSHORT/bin/phpize
-	./configure --with-php-config=/opt/php-$PHPVERSIONSHORT/bin/php-config
-	make -j4
-	make install
+        # update php-redis module
+        cd /usr/local/src/php$PHPVERSIONSHORT-build/phpredis
+        git pull
+        /opt/php-$PHPVERSIONSHORT/bin/phpize
+        ./configure --with-php-config=/opt/php-$PHPVERSIONSHORT/bin/php-config
+        make -j4
+        make install
 
-	# update php-apcu module
-	cd /usr/local/src/php$PHPVERSIONSHORT-build/apcu
-	git pull
-	/opt/php-$PHPVERSIONSHORT/bin/phpize
-	./configure --with-php-config=/opt/php-$PHPVERSIONSHORT/bin/php-config
-	make -j4
-	make install
+        # update php-apcu module
+        cd /usr/local/src/php$PHPVERSIONSHORT-build/apcu
+        git pull
+        /opt/php-$PHPVERSIONSHORT/bin/phpize
+        ./configure --with-php-config=/opt/php-$PHPVERSIONSHORT/bin/php-config
+        make -j4
+        make install
 
-	# update php-imagick module
-	IMAGICKSTABLE=$(curl -s https://pecl.php.net/package/imagick | grep "stable" -A2 | head -n3 | grep -o "imagick-.*.tgz" | cut -d">" -f2 | sed 's/\.tgz//')
-	cd /usr/local/src/php$PHPVERSIONSHORT-build
-	wget https://pecl.php.net/get/$IMAGICKSTABLE.tgz -O $IMAGICKSTABLE.tgz
-	tar xf $IMAGICKSTABLE.tgz
-	cd /usr/local/src/php$PHPVERSIONSHORT-build/$IMAGICKSTABLE
-	/opt/php-$PHPVERSIONSHORT/bin/phpize
-	./configure --with-php-config=/opt/php-$PHPVERSIONSHORT/bin/php-config
-	make -j4
-	make install
+        # update php-imagick module
+        IMAGICKSTABLE=$(curl -s https://pecl.php.net/package/imagick | grep "stable" -A2 | head -n3 | grep -o "imagick-.*.tgz" | cut -d">" -f2 | sed 's/\.tgz//')
+        cd /usr/local/src/php$PHPVERSIONSHORT-build
+        wget https://pecl.php.net/get/$IMAGICKSTABLE.tgz -O $IMAGICKSTABLE.tgz
+        tar xf $IMAGICKSTABLE.tgz
+        cd /usr/local/src/php$PHPVERSIONSHORT-build/$IMAGICKSTABLE
+        /opt/php-$PHPVERSIONSHORT/bin/phpize
+        ./configure --with-php-config=/opt/php-$PHPVERSIONSHORT/bin/php-config
+        make -j4
+        make install
 
-	# restart php
-	systemctl restart php$PHPVERSIONSHORT-fpm.service
+        # restart php
+        systemctl restart php$PHPVERSIONSHORT-fpm.service
 
-	# run php version
-	echo ""
-	echo -n "installed php version:    "; /opt/php-$PHPVERSIONSHORT/bin/php -v | head -n1 | cut -d" " -f2
+        # run php version
+        echo ""
+        echo -n "installed php version:    "; /opt/php-$PHPVERSIONSHORT/bin/php -v | head -n1 | cut -d" " -f2
 
-	# show our modules
-	echo -n "installed custom modules: "; /opt/php-$PHPVERSIONSHORT/bin/php -m | egrep 'redis|apcu|imagick' | tr "\n" " "
-	echo ""
+        # show our modules
+        echo -n "installed custom modules: "; /opt/php-$PHPVERSIONSHORT/bin/php -m | egrep 'redis|apcu|imagick' | tr "\n" " "
+        echo ""
 
-	# list systemd timers
-	echo -n "php-fpm status:           "; systemctl status php$PHPVERSIONSHORT-fpm.service | grep Active | cut -d" " -f5-6 | tr "\n" " "
+        # list systemd timers
+        echo -n "php-fpm status:           "; systemctl status php$PHPVERSIONSHORT-fpm.service | grep Active | cut -d" " -f5-6 | tr "\n" " "
 
-	# show our modules
-	echo ""
-	echo "running custom modules:"
-	/opt/php-$PHPVERSIONSHORT/bin/php -m | egrep 'redis|apcu|imagick'
+        # show our modules
+        echo ""
+        echo "running custom modules:"
+        /opt/php-$PHPVERSIONSHORT/bin/php -m | egrep 'redis|apcu|imagick'
 
-	fi
+        fi
 else
-	echo "No new PHP version available ($CURRENTPHP)."
+        echo "No new PHP version available ($CURRENTPHP)."
 fi
 }
 
@@ -340,8 +340,8 @@ echo -n "systemd timer:            "; systemctl list-timers | grep check-php-ver
 update_cron() {
 MAILTO=root
 if [ $PHPVERSION != $CURRENTPHP ]; then
-	echo "New PHP version $PHPVERSION available ($CURRENTPHP) !" | mail -s "New PHP version $PHPVERSION available ($HOSTNAME)" $MAILTO
-	exit 1
+        echo "New PHP version $PHPVERSION available ($CURRENTPHP) !" | mail -s "New PHP version $PHPVERSION available ($HOSTNAME)" $MAILTO
+        exit 1
 fi
 }
 
@@ -353,22 +353,22 @@ case "$1" in
         ;;
 
         installcron)
-	check_php
-	if [ -z "$2" ]; then
-		echo $"Something went wrong, example usage: "
-		echo $"bash ${0##*/} installcron me@example.com"
-	else
-	install_cron "$2"
-	fi
+        check_php
+        if [ -z "$2" ]; then
+                echo $"Something went wrong, example usage: "
+                echo $"bash ${0##*/} installcron me@example.com"
+        else
+        install_cron "$2"
+        fi
         ;;
 
         update)
-	check_php
+        check_php
         update_latest
         ;;
 
         cron)
-	check_php
+        check_php
         update_cron
         ;;
 
