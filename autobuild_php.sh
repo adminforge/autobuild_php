@@ -44,16 +44,16 @@ if [ $(grep -E "Debian" /etc/*-release | wc -l) -ge 1 ]; then
         echo "install on debian linux ..."
         ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a 2>/dev/null
         apt-get update
-        apt-get install -y build-essential pkg-config autoconf libfcgi-dev libfcgi0ldbl libjpeg62-turbo-dev libmcrypt-dev libssl-dev libc-client2007e libc-client2007e-dev libxml2-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libfreetype6-dev libkrb5-dev libpq-dev libxml2-dev libxslt1-dev libzip-dev git libmagickwand-dev wget g++ libldap2-dev redis-server bsd-mailx
+        apt-get install -y build-essential pkg-config autoconf libfcgi-dev libfcgi0ldbl libjpeg62-turbo-dev libmcrypt-dev libssl-dev libc-client2007e libc-client2007e-dev libxml2-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libfreetype6-dev libkrb5-dev libpq-dev libxml2-dev libxslt1-dev libzip-dev git libmagickwand-dev wget g++ libldap2-dev redis-server bsd-mailx libsqlite3-dev libonig-dev
 elif [ $(grep -E "Ubuntu" /etc/*-release | wc -l) -ge 1 ]; then
         echo "install on ubuntu linux ..."
         ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a 2>/dev/null
         apt-get update
-        apt-get install -y build-essential pkg-config autoconf libfcgi-dev libfcgi0ldbl libmcrypt-dev libssl-dev libc-client2007e libc-client2007e-dev libxml2-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libfreetype6-dev libkrb5-dev libpq-dev libxml2-dev libxslt1-dev libzip-dev git libmagickwand-dev wget g++ libldap2-dev redis-server bsd-mailx
-elif [ $(grep -E "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
+        apt-get install -y build-essential pkg-config autoconf libfcgi-dev libfcgi0ldbl libmcrypt-dev libssl-dev libc-client2007e libc-client2007e-dev libxml2-dev libbz2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libfreetype6-dev libkrb5-dev libpq-dev libxml2-dev libxslt1-dev libzip-dev git libmagickwand-dev wget g++ libldap2-dev redis-server bsd-mailx libsqlite3-dev libonig-dev
+elif [ $(grep -iE "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
         echo "install on centos linux ..."
         yum install -y epel-release
-        yum install -y autoconf libxml2-devel libjpeg-devel libpng-devel libxml2-devel git ImageMagick-devel wget gcc openssl-devel libcurl-devel uw-imap-devel libc-client libicu-devel gcc-c++ libxslt-devel openldap-devel redis mailx.x86_64
+        yum install -y autoconf libxml2-devel libjpeg-devel libpng-devel libxml2-devel git ImageMagick-devel wget gcc openssl-devel libcurl-devel uw-imap-devel libc-client libicu-devel gcc-c++ libxslt-devel openldap-devel redis mailx.x86_64 sqlite-devel oniguruma-devel
         wget http://packages.psychotic.ninja/7/plus/x86_64/RPMS//libzip-0.11.2-6.el7.psychotic.x86_64.rpm
         wget http://packages.psychotic.ninja/7/plus/x86_64/RPMS//libzip-devel-0.11.2-6.el7.psychotic.x86_64.rpm
         rpm -i libzip-0.11.2-6.el7.psychotic.x86_64.rpm libzip-devel-0.11.2-6.el7.psychotic.x86_64.rpm
@@ -76,7 +76,7 @@ cd php-$PHPVERSION/
 # build php
 if [ $(grep -E "Debian|Ubuntu" /etc/*-release | wc -l) -ge 1 ]; then
 ./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-pdo-pgsql --with-zlib-dir --with-freetype --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --with-pgsql --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib/x86_64-linux-gnu --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
-elif [ $(grep -E "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
+elif [ $(grep -iE "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
 ./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-zlib-dir --with-freetype --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib64 --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
 else
 exit 1
@@ -236,7 +236,7 @@ if [ $PHPVERSION != $CURRENTPHP ]; then
         # build php
         if [ $(grep -E "Debian|Ubuntu" /etc/*-release | wc -l) -ge 1 ]; then
         ./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-pdo-pgsql --with-zlib-dir --with-freetype --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --with-pgsql --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib/x86_64-linux-gnu --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
-        elif [ $(grep -E "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
+        elif [ $(grep -iE "CentOS" /etc/*-release | wc -l) -ge 1 ]; then
         ./configure --prefix=/opt/php-$PHPVERSIONSHORT --with-zlib-dir --with-freetype --enable-mbstring --with-libxml-dir=/usr --enable-soap --enable-calendar --with-curl --with-zlib --with-gd --disable-rpath --enable-inline-optimization --with-bz2 --with-zlib --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-exif --enable-bcmath --with-mhash --enable-zip --with-pcre-regex --with-pdo-mysql --with-mysqli --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-jpeg-dir=/usr --with-png-dir=/usr --with-openssl --with-fpm-user=www-data --with-fpm-group=www-data --with-libdir=/lib64 --enable-ftp --with-imap --with-imap-ssl --with-kerberos --with-gettext --with-xmlrpc --with-xsl --enable-opcache --enable-intl --enable-fpm --with-ldap
         else
         exit 1
