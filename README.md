@@ -9,7 +9,7 @@ Useful if the os version does not meet your requirements.
 2) run it: <code>bash autobuild_php.sh install</code>
 3) check if everything is fine in the summary
 4) the script has been moved to /usr/local/bin/autobuild_php.sh
-5) make your own settings: <code>/opt/php-7.3/etc/php-fpm.conf | /opt/php-7.3/etc/php-fpm.d/www.conf</code>
+5) make your own settings: <code>/opt/php-8.2/etc/php-fpm.conf,/opt/php-8.2/etc/php-fpm.d/www.conf</code>
 
 
 ## Update
